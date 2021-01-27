@@ -9,9 +9,13 @@ using namespace std;
 
 int main() {
 	string name;
-	cout << "starting world engine... \n give your world a name:\n" << endl;
+	cout << "Starting world engine... \n Give your world a name:\n" << endl;
 	cin >> name;
 	World Earth(name);
-	Earth.getPopulation(name);
+	cout << Earth.getPopulation(name);
+	
+	cout << "Press a button for shut down...:";
+	int shutdown;
+	cin >> shutdown;
 	return 0;
 }

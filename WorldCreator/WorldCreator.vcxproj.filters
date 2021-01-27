@@ -1,24 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include=".cpp">
-      <UniqueIdentifier>{ba530cc0-29ab-48bf-930a-1024ebc73cdf}</UniqueIdentifier>
+    <Filter Include="Scource">
+      <UniqueIdentifier>{82d890e6-290b-4fcf-886a-61f193a4c33f}</UniqueIdentifier>
     </Filter>
-    <Filter Include=".h">
-      <UniqueIdentifier>{0687723a-d1a2-40b6-a5b5-9e3b3c9e91a7}</UniqueIdentifier>
+    <Filter Include="Header">
+      <UniqueIdentifier>{fc8e90f9-9bac-4483-8231-0dab2778a483}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>.cpp</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="World.h">
-      <Filter>.h</Filter>
+      <Filter>Header</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Scource</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Scource</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
