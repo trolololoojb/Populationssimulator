@@ -12,12 +12,18 @@
     <ClInclude Include="World.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="Visualizing.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Scource</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
+      <Filter>Scource</Filter>
+    </ClCompile>
+    <ClCompile Include="Visualizing.cpp">
       <Filter>Scource</Filter>
     </ClCompile>
   </ItemGroup>

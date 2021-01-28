@@ -78,9 +78,11 @@
     <ClCompile Include="Main.cpp">
       <CppLanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">c++17</CppLanguageStandard>
     </ClCompile>
+    <ClCompile Include="Visualizing.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Visualizing.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

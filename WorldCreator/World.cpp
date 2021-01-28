@@ -12,54 +12,77 @@ using namespace std;
 //creates a world folder or load a existing world
 World::World(string name) {
 	ifstream worldfile;
-	string worldpath = name + "/" + name;
-	worldfile.open(worldpath);
+	string worldpath = name + "/";
+	worldfile.open(worldpath + name);
 	if (worldfile.fail()) {
 		worldfile.close();
 		cout << "Create your world " << name << "..." << endl;
 		fs::create_directories("./" + name);
 		ofstream worldfile;
-		worldfile.open(worldpath);
-		worldfile << "Name:" << name << "\n";
-		cout << "Create people... \n";
-		int population = createPopulation();
-		worldfile << population << "\n";
+		worldfile.open(worldpath + name);
 		worldfile.close();
+		createArea(name);
+
+
+		cout << "Create people... \n";
+		createPopulation(name);
 	}
 	else {
 		cout << "This world already exist. \n Instead of creating a world, your world will be started...\n \n";
-		cout << "Starting" + name;
+		cout << "Starting" + name + "...";
 	}
 }
 
-//create the population for a world 
-int World::createPopulation() {
-	srand(time(NULL));
-	int random = rand() % 1000;
-	cout << random << "\n";
-	int population;
-	srand(time(NULL));
-	random = random * rand() % 100000000;
-	cout << random << "\n";
-	int random_mod = random % 2;
+//create the landarea
+long long World::createArea(string name) {
+	long long minPlan = 45364597917837;
+	long long maxPlan = 64242428173257680;
+	string worldpath = name + "/";
 
-	population = random;
+	srand(time(NULL));
+	long long area = rand() % maxPlan + minPlan;
+	ofstream worldfile;
+	worldfile.open(worldpath + "area");
+	worldfile << area;
+	return area;
+}
 
-	cout << "population: " << population << "\n";
+long long World::getArea(string name) {
+	string worldpath = name + "/";
+	ifstream worldfile;
+	worldfile.open(worldpath + "area");
+	string area_f;
+	getline(worldfile, area_f);
+	long long area = stoi(area_f);
+	return area;
+}
+
+//create the population for a world based on the land area
+long long World::createPopulation(string name) {
+	srand(time(NULL));
+	long long area = getArea(name);
+	long long population;
+
+	long long pop_rand = area / 100;
+	population = rand() % area;
+
+	string worldpath = name + "/";
+	ofstream worldfile;
+	worldfile.open(worldpath + "population");
+	worldfile << population;
+	worldfile.close();
 	return population;
 }
 
 
 //return the population as an int
-int World::getPopulation(string name) {
+long long World::getPopulation(string name) {
 	ifstream worldfile(name + "/" + name);
-	string dummy;
 	string population_f;
 
-	getline(worldfile, dummy);
 	getline(worldfile, population_f);
 	worldfile.close();
-	int population = stoi(population_f);
+	long long population = stoi(population_f);
 	return population;
 }
 
@@ -79,4 +102,29 @@ void World::worldtime(int a, int year) {
 		//worldtime(a);
 	}
 	cout << "Es ist das Jahr " << year << "und es sind " << a << "Jahre vergangen \n";
+}
+
+
+//calculate the population structure based on the population
+string World::populationStructure(string name) {
+	string tribe = tribe;
+	string country = country;
+	string continental = continental;
+
+
+	long long area = getArea(name);
+	long long population = getPopulation(name);
+	int qm_index = area / population;
+	if (qm_index < 200) {
+		return continental;
+	}
+	else {
+		if (qm_index < 200000) {
+			return country;
+		}
+		else
+		{
+			return tribe;
+		}
+	}
 }
