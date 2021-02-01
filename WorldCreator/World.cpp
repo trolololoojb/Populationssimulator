@@ -1,10 +1,13 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <time.h>
+#include <ctime>
 #include <filesystem>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "World.h"
+#include "Visualizing.h"
 
 namespace fs = std::filesystem;
 using namespace std;
@@ -18,12 +21,15 @@ World::World(string name) {
 		worldfile.close();
 		cout << "Create your world " << name << "..." << endl;
 		fs::create_directories("./" + name);
+		sleep(3);
+		setYear(name);
+		Visualizing Planet;
+		Planet.rotateWorld();
 		ofstream worldfile;
-		worldfile.open(worldpath + name);
+		worldfile.open(worldpath + "name");
+		worldfile << name;
 		worldfile.close();
 		createArea(name);
-
-
 		cout << "Create people... \n";
 		createPopulation(name);
 	}
@@ -47,13 +53,24 @@ long long World::createArea(string name) {
 	return area;
 }
 
+//get the area of the world
 long long World::getArea(string name) {
 	string worldpath = name + "/";
 	ifstream worldfile;
 	worldfile.open(worldpath + "area");
 	string area_f;
+
 	getline(worldfile, area_f);
-	long long area = stoi(area_f);
+	
+	long long area;
+
+	std::string::size_type sz = 0;   // alias of size_t
+
+	while (!area_f.empty()) {
+		area = std::stoll(area_f, &sz, 0);
+		area_f = area_f.substr(sz);
+	}
+
 	return area;
 }
 
@@ -64,7 +81,7 @@ long long World::createPopulation(string name) {
 	long long population;
 
 	long long pop_rand = area / 100;
-	population = rand() % area;
+	population = rand() % pop_rand;
 
 	string worldpath = name + "/";
 	ofstream worldfile;
@@ -77,33 +94,20 @@ long long World::createPopulation(string name) {
 
 //return the population as an int
 long long World::getPopulation(string name) {
-	ifstream worldfile(name + "/" + name);
+	ifstream worldfile(name + "/" + "population");
 	string population_f;
-
 	getline(worldfile, population_f);
 	worldfile.close();
-	long long population = stoi(population_f);
+	long long population;
+
+	std::string::size_type sz = 0;   // alias of size_t
+
+	while (!population_f.empty()) {
+		population = std::stoll(population_f, &sz, 0);
+		population_f = population_f.substr(sz);
+	}
 	return population;
 }
-
-//timer for the seconds. One second means one year.
-void World::worldtime(int a, int year) {
-
-
-	for (int i; i < year; i++) {
-		time_t akttime = time(NULL);
-		while (akttime == time(NULL)) {
-			;
-		}
-		a = a + 1;
-		akttime += 1;
-		year += 1;
-		cout << a << "Jahr(e) \n";
-		//worldtime(a);
-	}
-	cout << "Es ist das Jahr " << year << "und es sind " << a << "Jahre vergangen \n";
-}
-
 
 //calculate the population structure based on the population
 string World::populationStructure(string name) {
@@ -127,4 +131,48 @@ string World::populationStructure(string name) {
 			return tribe;
 		}
 	}
+}
+
+//add the population of one year based on the populationfactor
+void World::plusPopulation(string name) {
+	string worldpath = name + "/";
+	long long population = getPopulation(name);
+	float bornrate = 0.0045;
+	
+	long long pop_plus = population / 100 * bornrate;
+	population = population + pop_plus;
+	ofstream worldfile;
+	worldfile.open(worldpath + "population");
+	worldfile << population;
+	worldfile.close();
+}
+
+//dedut the population of one year based on the populationfactor
+void World::minusPopulation(string name) {
+	string worldpath = name + "/";
+	long long population = getPopulation(name);
+	float deathrate = 0.002;;
+
+	long long pop_plus = population / 100 * deathrate;
+	population = population - pop_plus;
+	ofstream worldfile;
+	worldfile.open(worldpath + "population");
+	worldfile << population;
+	worldfile.close();
+}
+
+void World::setYear(string name) {
+	srand(time(NULL));
+	int year = rand() % 43000000 + 42000000;
+	string worldpath = name + "/";
+	ofstream worldfile;
+	worldfile.open(worldpath + "year");
+	worldfile << year;
+	worldfile.close();
+}
+
+//simulate one year on this planet
+void World::yearPlanet(string name) {
+	plusPopulation(name);
+	minusPopulation(name);
 }

@@ -10,10 +10,14 @@ private:
 	long long createPopulation(string name);
 	long long createArea(string name);
 	string populationStructure(string name);
+	void plusPopulation(string name);
+	void minusPopulation(string name);
+	void setYear(string name);
+	void pandemic(string name);
 
 public:
 	World(string name);
 	long long getArea(string name);
 	long long getPopulation(string name);
-	void worldtime(int a, int y);
+	void yearPlanet(string name);
 };
