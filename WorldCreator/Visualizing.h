@@ -12,5 +12,6 @@ class Visualizing
 	public:
 		Visualizing();
 		void rotateWorld();
+		void createPeople();
 };
 

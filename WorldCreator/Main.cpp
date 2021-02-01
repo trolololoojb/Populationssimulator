@@ -28,13 +28,23 @@ int main() {
 		cin >> menu;
 		switch (menu) {
 
-		case 1:
-			cout << "The population of " + name + " is " << Planet.getPopulation(name) + "\n";
-			break;
+			case 1:
+				cout << "The population of " + name + " is " << Planet.getPopulation(name) + ".\n";
+				break;
 
-		case 2:
-			cout << "The age of " + name + " is ";
+			case 2:
+				cout << "The age of " + name + " is " << Planet.getYear(name) + ".\n";
+
+			case 3:
+				cout << "The current poulation structure on " + name + " is " << Planet.populationStructure(name) + ".\n";
+
+			case 4:
+				cout << "How much years do you want to go in the future?\n";
+				int years;
+				cin >> years;
+				for (int i = 0; i < years; i++) {
+					Planet.yearPlanet(name);
+				}
 		}
-
 	}
 }

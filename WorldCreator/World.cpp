@@ -21,7 +21,7 @@ World::World(string name) {
 		worldfile.close();
 		cout << "Create your world " << name << "..." << endl;
 		fs::create_directories("./" + name);
-		sleep(3);
+		sleep(2);
 		setYear(name);
 		Visualizing Planet;
 		Planet.rotateWorld();
@@ -31,6 +31,8 @@ World::World(string name) {
 		worldfile.close();
 		createArea(name);
 		cout << "Create people... \n";
+		sleep(2);
+		Planet.createPeople();
 		createPopulation(name);
 	}
 	else {
@@ -61,7 +63,7 @@ long long World::getArea(string name) {
 	string area_f;
 
 	getline(worldfile, area_f);
-	
+	worldfile.close();
 	long long area;
 
 	std::string::size_type sz = 0;   // alias of size_t
@@ -111,9 +113,9 @@ long long World::getPopulation(string name) {
 
 //calculate the population structure based on the population
 string World::populationStructure(string name) {
-	string tribe = tribe;
-	string country = country;
-	string continental = continental;
+	string tribe = "tribe";
+	string country = "country";
+	string continental = "continental";
 
 
 	long long area = getArea(name);
@@ -121,14 +123,17 @@ string World::populationStructure(string name) {
 	int qm_index = area / population;
 	if (qm_index < 200) {
 		return continental;
+		cout << "That means, that this planet have enough life forms for a structure apart from countrys.\nThey have continents instead of countrys.\n";
 	}
 	else {
 		if (qm_index < 200000) {
 			return country;
+			cout << "That means, that this planett have enough life forms for a country culture.\n";
 		}
 		else
 		{
 			return tribe;
+			cout << "That means, that this planet doesn't have enough life forms for a country culture.\n";
 		}
 	}
 }
@@ -163,7 +168,7 @@ void World::minusPopulation(string name) {
 
 void World::setYear(string name) {
 	srand(time(NULL));
-	int year = rand() % 43000000 + 42000000;
+	long long year = rand() % 43000000 + 42000000;
 	string worldpath = name + "/";
 	ofstream worldfile;
 	worldfile.open(worldpath + "year");
@@ -175,4 +180,22 @@ void World::setYear(string name) {
 void World::yearPlanet(string name) {
 	plusPopulation(name);
 	minusPopulation(name);
+}
+
+long long World::getYear(string name) {
+	ifstream worldfile(name + "/" + "year");
+	string year_f;
+	getline(worldfile, year_f);
+	worldfile.close();
+
+	long long year;
+
+	std::string::size_type sz = 0;   // alias of size_t
+
+	while (!year_f.empty()) {
+		year = std::stoll(year_f, &sz, 0);
+		year_f = year_f.substr(sz);
+	}
+
+	return year;
 }
