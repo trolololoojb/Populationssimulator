@@ -26,7 +26,7 @@ World::World(string name) {
 		Visualizing Planet;
 		Planet.rotateWorld();
 		ofstream worldfile;
-		worldfile.open(worldpath + "name");
+		worldfile.open(worldpath + name);
 		worldfile << name;
 		worldfile.close();
 		createArea(name);
@@ -36,8 +36,8 @@ World::World(string name) {
 		createPopulation(name);
 	}
 	else {
-		cout << "This world already exist. \n Instead of creating a world, your world will be started...\n \n";
-		cout << "Starting" + name + "...";
+		cout << "This world already exist. \nInstead of creating a world, your world will be started...\n \n";
+		cout << "Starting " + name + "...\n";
 	}
 }
 
@@ -52,6 +52,7 @@ long long World::createArea(string name) {
 	ofstream worldfile;
 	worldfile.open(worldpath + "area");
 	worldfile << area;
+	worldfile.close();
 	return area;
 }
 
@@ -66,12 +67,7 @@ long long World::getArea(string name) {
 	worldfile.close();
 	long long area;
 
-	std::string::size_type sz = 0;   // alias of size_t
-
-	while (!area_f.empty()) {
-		area = std::stoll(area_f, &sz, 0);
-		area_f = area_f.substr(sz);
-	}
+	area = std::stoll(area_f, NULL, 0);
 
 	return area;
 }
@@ -101,13 +97,10 @@ long long World::getPopulation(string name) {
 	getline(worldfile, population_f);
 	worldfile.close();
 	long long population;
+	
 
-	std::string::size_type sz = 0;   // alias of size_t
+	population = std::stoll(population_f, NULL, 0);
 
-	while (!population_f.empty()) {
-		population = std::stoll(population_f, &sz, 0);
-		population_f = population_f.substr(sz);
-	}
 	return population;
 }
 
@@ -123,17 +116,14 @@ string World::populationStructure(string name) {
 	int qm_index = area / population;
 	if (qm_index < 200) {
 		return continental;
-		cout << "That means, that this planet have enough life forms for a structure apart from countrys.\nThey have continents instead of countrys.\n";
 	}
 	else {
 		if (qm_index < 200000) {
 			return country;
-			cout << "That means, that this planett have enough life forms for a country culture.\n";
 		}
 		else
 		{
 			return tribe;
-			cout << "That means, that this planet doesn't have enough life forms for a country culture.\n";
 		}
 	}
 }
@@ -158,8 +148,13 @@ void World::minusPopulation(string name) {
 	long long population = getPopulation(name);
 	float deathrate = 0.002;;
 
-	long long pop_plus = population / 100 * deathrate;
-	population = population - pop_plus;
+	ifstream pandemicfile;
+	string pan_f;
+	getline(pandemicfile, pan_f);
+	int pan = stoi(pan_f);
+	long long pop_min = population / 100 * deathrate;
+	pop_min *= pan;
+	population = population - pop_min;
 	ofstream worldfile;
 	worldfile.open(worldpath + "population");
 	worldfile << population;
@@ -178,10 +173,12 @@ void World::setYear(string name) {
 
 //simulate one year on this planet
 void World::yearPlanet(string name) {
+	pandemic(name);
 	plusPopulation(name);
 	minusPopulation(name);
 }
 
+//return the age of the planet
 long long World::getYear(string name) {
 	ifstream worldfile(name + "/" + "year");
 	string year_f;
@@ -190,12 +187,40 @@ long long World::getYear(string name) {
 
 	long long year;
 
-	std::string::size_type sz = 0;   // alias of size_t
 
-	while (!year_f.empty()) {
-		year = std::stoll(year_f, &sz, 0);
-		year_f = year_f.substr(sz);
-	}
+	year = std::stoll(year_f, NULL, 0);
 
 	return year;
+}
+
+//create a random number and decide about a pandemic
+void World::pandemic(string name) {
+	srand(time(NULL));
+	int pandemic = rand() % 11 + 2;
+	if (pandemic < 7) {
+		string worldpath = name + "/";
+		ofstream worldfile;
+		worldfile.open(worldpath + "pandemic");
+		worldfile << pandemic;
+		worldfile.close();
+	}
+	else {
+		string worldpath = name + "/";
+		ofstream worldfile;
+		worldfile.open(worldpath + "pandemic");
+		worldfile << "0";
+		worldfile.close();
+	}
+
+}
+
+//set the technoogy factor
+void World::setTechnology(string name) {
+	srand(time(NULL));
+	long long year = rand() % 43000000 + 42000000;
+	string worldpath = name + "/";
+	ofstream worldfile;
+	worldfile.open(worldpath + "year");
+	worldfile << year;
+	worldfile.close();
 }

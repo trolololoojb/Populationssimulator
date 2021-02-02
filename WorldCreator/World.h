@@ -13,6 +13,7 @@ private:
 	void minusPopulation(string name);
 	void setYear(string name);
 	void pandemic(string name);
+	void setTechnology(string name);
 
 public:
 	World(string name);
