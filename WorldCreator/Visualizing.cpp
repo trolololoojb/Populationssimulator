@@ -63,3 +63,7 @@ void Visualizing::createPeople() {
 	sleep(1);
 	system("clear");
 }
+
+void Visualizing::loadWorld() {
+	//maybe a cool half Planet but only as a goodie
+}

@@ -34,6 +34,8 @@ World::World(string name) {
 		sleep(2);
 		Planet.createPeople();
 		createPopulation(name);
+
+
 	}
 	else {
 		cout << "This world already exist. \nInstead of creating a world, your world will be started...\n \n";
@@ -171,11 +173,23 @@ void World::setYear(string name) {
 	worldfile.close();
 }
 
+void World::plusYear(string name) {
+	long long akt_year = getYear(name);
+	akt_year = akt_year + 1;
+	string worldpath = name + "/";
+	ofstream worldfile;
+	worldfile.open(worldpath + "year");
+	worldfile << akt_year;
+	worldfile.close();
+}
+
 //simulate one year on this planet
 void World::yearPlanet(string name) {
+	setTechnology(name);
 	pandemic(name);
 	plusPopulation(name);
 	minusPopulation(name);
+	plusYear(name);
 }
 
 //return the age of the planet
@@ -196,8 +210,21 @@ long long World::getYear(string name) {
 //create a random number and decide about a pandemic
 void World::pandemic(string name) {
 	srand(time(NULL));
+	int pan_struc;
+	if (populationStructure(name) == "tribe") {
+		pan_struc = 4;
+	}
+	else{
+		if (populationStructure(name) == "country") {
+			pan_struc = 6;
+		}
+		else {
+			pan_struc = 8;
+		}
+
+	}
 	int pandemic = rand() % 11 + 2;
-	if (pandemic < 7) {
+	if (pandemic < pan_struc) {
 		string worldpath = name + "/";
 		ofstream worldfile;
 		worldfile.open(worldpath + "pandemic");
@@ -217,10 +244,32 @@ void World::pandemic(string name) {
 //set the technoogy factor
 void World::setTechnology(string name) {
 	srand(time(NULL));
-	long long year = rand() % 43000000 + 42000000;
-	string worldpath = name + "/";
-	ofstream worldfile;
-	worldfile.open(worldpath + "year");
-	worldfile << year;
+	string pop_struc = populationStructure(name);
+	int tech = getTechnology(name);
+	if (pop_struc == "country" || pop_struc == "continental" || tech > 4) {
+		long long tech = rand() % 5 + 1;
+		string worldpath = name + "/";
+		ofstream worldfile;
+		worldfile.open(worldpath + "technology");
+		worldfile << tech;
+		worldfile.close();
+	}
+	else {
+		long long tech = rand() % 2 + 1;
+		string worldpath = name + "/";
+		ofstream worldfile;
+		worldfile.open(worldpath + "technology");
+		worldfile << tech;
+		worldfile.close();
+	}
+}
+
+int World::getTechnology(string name) {
+	ifstream worldfile(name + "/" + "technology");
+	string tech_f;
+	getline(worldfile, tech_f);
 	worldfile.close();
+	int tech;
+	tech = std::stoll(tech_f, NULL, 0);
+	return tech;
 }

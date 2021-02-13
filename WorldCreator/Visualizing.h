@@ -13,5 +13,6 @@ class Visualizing
 		Visualizing();
 		void rotateWorld();
 		void createPeople();
+		void loadWorld();
 };
 

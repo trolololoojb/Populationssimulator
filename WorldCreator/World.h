@@ -12,6 +12,7 @@ private:
 	void plusPopulation(string name);
 	void minusPopulation(string name);
 	void setYear(string name);
+	void plusYear(string name);
 	void pandemic(string name);
 	void setTechnology(string name);
 
@@ -22,4 +23,5 @@ public:
 	string populationStructure(string name);
 	void yearPlanet(string name);
 	long long getYear(string name);
+	int getTechnology(string name);
 };

@@ -15,6 +15,9 @@
     <ClInclude Include="Visualizing.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -24,6 +27,9 @@
       <Filter>Scource</Filter>
     </ClCompile>
     <ClCompile Include="Visualizing.cpp">
+      <Filter>Scource</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface.cpp">
       <Filter>Scource</Filter>
     </ClCompile>
   </ItemGroup>
