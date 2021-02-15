@@ -221,7 +221,6 @@ void World::pandemic(string name) {
 		else {
 			pan_struc = 8;
 		}
-
 	}
 	int pandemic = rand() % 11 + 2;
 	if (pandemic < pan_struc) {
@@ -272,4 +271,103 @@ int World::getTechnology(string name) {
 	int tech;
 	tech = std::stoll(tech_f, NULL, 0);
 	return tech;
+}
+
+void World::setWar(string name){
+	srand(time(NULL));
+	float war;
+	int a = rand() % 50 + 1;
+	if (a > 40) {
+		int r = rand() % 5 + 1;
+		switch (getTechnology(name))
+		{
+		case 1:
+			if (populationStructure(name) == "tribe") {
+				war = r * 0.1;
+			}
+			else {
+				if (populationStructure(name) == "country") {
+					war = r * 1;
+				}
+				else {
+					if (populationStructure(name) == "continental") {
+						war = r * 2;
+					}
+				}
+			}
+			break;
+
+		case 2:
+			if (populationStructure(name) == "tribe") {
+				war = r * 0.2;
+			}
+			else {
+				if (populationStructure(name) == "country") {
+					war = r * 2;
+				}
+				else {
+					if (populationStructure(name) == "continental") {
+						war = r * 4;
+					}
+				}
+			}
+			break;
+
+		case 3:
+			if (populationStructure(name) == "tribe") {
+				war = r * 0.4;
+			}
+			else {
+				if (populationStructure(name) == "country") {
+					war = r * 4;
+				}
+				else {
+					if (populationStructure(name) == "continental") {
+						war = r * 8;
+					}
+				}
+			}
+			break;
+
+		case 4:
+			if (populationStructure(name) == "tribe") {
+				war = r * 0.8;
+			}
+			else {
+				if (populationStructure(name) == "country") {
+					war = r * 8;
+				}
+				else {
+					if (populationStructure(name) == "continental") {
+						war = r * 16;
+					}
+				}
+			}
+			break;
+
+		case 5:
+			if (populationStructure(name) == "tribe") {
+				war = r * 0.8;
+			}
+			else {
+				if (populationStructure(name) == "country") {
+					war = r * 8;
+				}
+				else {
+					if (populationStructure(name) == "continental") {
+						war = r * 16;
+					}
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+
+}
+
+void World::getWar(string name) {
+
 }

@@ -15,6 +15,7 @@ private:
 	void plusYear(string name);
 	void pandemic(string name);
 	void setTechnology(string name);
+	void setWar(string name);
 
 public:
 	World(string name);
@@ -24,4 +25,5 @@ public:
 	void yearPlanet(string name);
 	long long getYear(string name);
 	int getTechnology(string name);
+	void getWar(string name);
 };
