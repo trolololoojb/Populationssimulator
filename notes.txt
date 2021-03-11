@@ -1,0 +1,18 @@
+    bornrate = 0,0045;
+    deathrate = 0,002;
+
+void World::plusWorldPopulation(){
+    int PopPlus =  getWorldPopulation() / 100 * bornrate;
+    __int64 Pop = getWorldPopulation() + PopPlus;
+    setWorldPopulation(Pop);
+}
+
+void World::minusWorldPopulation(){
+    int PopMinus =  getWorldPopulation() / 100 * deathrate;
+    __int64 Pop = getWorldPopulation() - PopMinus;
+    setWorldPopulation(Pop);
+}
+
+
+//sql code
+https://github.com/rohanparab/cppMySQL/blob/master/main.cpp
